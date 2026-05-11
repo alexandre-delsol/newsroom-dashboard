@@ -1,6 +1,6 @@
 import type {Article} from "../types/article"
 
-const API_KEY = "23824f1a78dab96063a1a1b05606bf49"
+const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 
 export const fetchNews = async (): Promise<Article[]> => {
     try {

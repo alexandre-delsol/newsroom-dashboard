@@ -3,6 +3,7 @@ import {fetchNews} from "./services/newsService"
 import type {Article} from "./types/article"
 import ArticleCard from "./components/ArticleCard"
 import {useTheme} from "./contexte/useTheme.ts";
+import Navbar from "./components/Nav.tsx";
 
 
 const App = () => {
@@ -56,29 +57,27 @@ const App = () => {
 
     return (
 
-            <div >
-                <h1>Newsroom Dashboard</h1>
-                <button onClick={toggleDarkMode}>
-                    {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-                </button>
-                <input
-                    type="text"
-                    placeholder="Rechercher un article..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="search-input"
-                />
-                {filteredArticles.length === 0 ? (
-                    <p>Aucun article disponible</p>
-                ) : (
-                    filteredArticles.map((article, index) => (
-                        <ArticleCard key={index}
-                                     article={article}
-                                     isFavorite={favorites.includes(article.title)}
-                                     onToggleFavorite={toggleFavorite}/>
-                    ))
-                )}
+        <div className="app">
+
+            <Navbar
+                search={search}
+                setSearch={setSearch}
+                favoritesCount={favorites.length}/>
+            <div className="container">
+                <div className="articles-grid">
+                    {filteredArticles.length === 0 ? (
+                        <p>Aucun article disponible</p>
+                    ) : (
+                        filteredArticles.map((article, index) => (
+                            <ArticleCard key={index}
+                                         article={article}
+                                         isFavorite={favorites.includes(article.title)}
+                                         onToggleFavorite={toggleFavorite}/>
+                        ))
+                    )}
+                </div>
             </div>
+        </div>
 
     )
 }

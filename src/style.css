@@ -97,9 +97,16 @@ body {
     margin-bottom: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.5s ease forwards;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes fadeInUp {
@@ -222,4 +229,47 @@ body.dark .navbar {
 body.dark {
     background: #121212;
     color: white;
+}
+
+.skeleton {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 200px;
+    background: #ddd;
+}
+
+.skeleton-line {
+    height: 12px;
+    background: #ddd;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.skeleton-line.title {
+    width: 60%;
+    height: 16px;
+}
+
+.skeleton-line.short {
+    width: 40%;
+}
+
+body.dark .skeleton-image,
+body.dark .skeleton-line {
+    background: #333;
 }

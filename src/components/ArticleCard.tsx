@@ -2,17 +2,20 @@ import type {Article} from "../types/article"
 
 interface Props {
     article: Article
+    index: number
     isFavorite: boolean
     onToggleFavorite: (title: string) => void
 }
 
 const ArticleCard = ({
                          article,
+                         index,
                          isFavorite,
                          onToggleFavorite
                      }: Props) => {
     return (
-        <div className="card">
+        <div className="card"
+             style={{animationDelay: `${index * 0.05}s`}}>
             <img loading="lazy"
                  src={
                      article.image ||

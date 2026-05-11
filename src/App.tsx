@@ -2,12 +2,13 @@ import {useEffect, useState} from "react"
 import {fetchNews} from "./services/newsService"
 import type {Article} from "./types/article"
 import ArticleCard from "./components/ArticleCard"
-import {useTheme} from "./contexte/useTheme.ts";
-import Navbar from "./components/Nav.tsx";
-
+import ArticleSkeleton from "./components/ArticleSkeleton"
+import {useTheme} from "./contexte/useTheme.ts"
+import Navbar from "./components/Nav.tsx"
 
 const App = () => {
-    const {darkMode, toggleDarkMode} = useTheme()
+    const {darkMode} = useTheme()
+
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -20,6 +21,7 @@ const App = () => {
         const saved = localStorage.getItem("favorites")
         return saved ? JSON.parse(saved) : []
     })
+
     const toggleFavorite = (title: string) => {
         setFavorites(prev =>
             prev.includes(title)
@@ -46,39 +48,43 @@ const App = () => {
         loadNews()
     }, [])
 
-    if (loading) {
-        return (
-            <div className="loader-container">
-                <div className="loader"></div>
-                <p>Chargement des articles...</p>
-            </div>
-        )
-    }
-
     return (
-
         <div className="app">
 
             <Navbar
                 search={search}
                 setSearch={setSearch}
-                favoritesCount={favorites.length}/>
+                favoritesCount={favorites.length}
+            />
+
             <div className="container">
-                <div className="articles-grid">
-                    {filteredArticles.length === 0 ? (
-                        <p>Aucun article disponible</p>
-                    ) : (
-                        filteredArticles.map((article, index) => (
-                            <ArticleCard key={index}
-                                         article={article}
-                                         isFavorite={favorites.includes(article.title)}
-                                         onToggleFavorite={toggleFavorite}/>
-                        ))
-                    )}
-                </div>
+
+                {loading ? (
+                    <div className="articles-grid">
+                        {Array.from({length: 6}).map((_, i) => (
+                            <ArticleSkeleton key={i}/>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="articles-grid">
+                        {filteredArticles.length === 0 ? (
+                            <p>Aucun article disponible</p>
+                        ) : (
+                            filteredArticles.map((article, index) => (
+                                <ArticleCard
+                                    key={index}
+                                    article={article}
+                                    index={index}
+                                    isFavorite={favorites.includes(article.title)}
+                                    onToggleFavorite={toggleFavorite}
+                                />
+                            ))
+                        )}
+                    </div>
+                )}
+
             </div>
         </div>
-
     )
 }
 

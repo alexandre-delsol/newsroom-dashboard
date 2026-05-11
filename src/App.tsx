@@ -6,8 +6,11 @@ import ArticleCard from "./components/ArticleCard"
 const App = () => {
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
+    const [search, setSearch] = useState("")
 
-
+    const filteredArticles = articles.filter(article =>
+        article.title.toLowerCase().includes(search.toLowerCase())
+    )
     useEffect(() => {
         const loadNews = async () => {
             const data = await fetchNews()
@@ -30,11 +33,17 @@ const App = () => {
     return (
         <div>
             <h1>Newsroom Dashboard</h1>
-
-            {articles.length === 0 ? (
+            <input
+                type="text"
+                placeholder="Rechercher un article..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="search-input"
+            />
+            {filteredArticles.length === 0 ? (
                 <p>Aucun article disponible</p>
             ) : (
-                articles.map((article, index) => (
+                filteredArticles.map((article, index) => (
                     <ArticleCard key={index} article={article}/>
                 ))
             )}

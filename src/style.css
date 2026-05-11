@@ -50,3 +50,12 @@ h1 {
         transform: rotate(360deg);
     }
 }
+
+.search-input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 24px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+}

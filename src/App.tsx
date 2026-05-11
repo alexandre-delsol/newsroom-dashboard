@@ -6,11 +6,28 @@ import ArticleCard from "./components/ArticleCard"
 const App = () => {
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
-    const [search, setSearch] = useState("")
 
+    const [search, setSearch] = useState("")
     const filteredArticles = articles.filter(article =>
         article.title.toLowerCase().includes(search.toLowerCase())
     )
+
+    const [favorites, setFavorites] = useState<string[]>(() => {
+        const saved = localStorage.getItem("favorites")
+        return saved ? JSON.parse(saved) : []
+    })
+    const toggleFavorite = (title: string) => {
+        setFavorites(prev =>
+            prev.includes(title)
+                ? prev.filter(fav => fav !== title)
+                : [...prev, title]
+        )
+    }
+
+    useEffect(() => {
+        localStorage.setItem("favorites", JSON.stringify(favorites))
+    }, [favorites])
+
     useEffect(() => {
         const loadNews = async () => {
             const data = await fetchNews()
@@ -44,7 +61,10 @@ const App = () => {
                 <p>Aucun article disponible</p>
             ) : (
                 filteredArticles.map((article, index) => (
-                    <ArticleCard key={index} article={article}/>
+                    <ArticleCard key={index}
+                                 article={article}
+                                 isFavorite={favorites.includes(article.title)}
+                                 onToggleFavorite={toggleFavorite}/>
                 ))
             )}
         </div>

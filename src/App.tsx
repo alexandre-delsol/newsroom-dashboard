@@ -7,6 +7,7 @@ const App = () => {
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
 
+
     useEffect(() => {
         const loadNews = async () => {
             const data = await fetchNews()
@@ -18,7 +19,12 @@ const App = () => {
     }, [])
 
     if (loading) {
-        return <h1>Chargement...</h1>
+        return (
+            <div className="loader-container">
+                <div className="loader"></div>
+                <p>Chargement des articles...</p>
+            </div>
+        )
     }
 
     return (

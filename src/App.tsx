@@ -2,8 +2,11 @@ import {useEffect, useState} from "react"
 import {fetchNews} from "./services/newsService"
 import type {Article} from "./types/article"
 import ArticleCard from "./components/ArticleCard"
+import {useTheme} from "./contexte/useTheme.ts";
+
 
 const App = () => {
+    const {darkMode, toggleDarkMode} = useTheme()
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -29,6 +32,10 @@ const App = () => {
     }, [favorites])
 
     useEffect(() => {
+        document.body.className = darkMode ? "dark" : "light"
+    }, [darkMode])
+
+    useEffect(() => {
         const loadNews = async () => {
             const data = await fetchNews()
             setArticles(data)
@@ -48,26 +55,31 @@ const App = () => {
     }
 
     return (
-        <div>
-            <h1>Newsroom Dashboard</h1>
-            <input
-                type="text"
-                placeholder="Rechercher un article..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="search-input"
-            />
-            {filteredArticles.length === 0 ? (
-                <p>Aucun article disponible</p>
-            ) : (
-                filteredArticles.map((article, index) => (
-                    <ArticleCard key={index}
-                                 article={article}
-                                 isFavorite={favorites.includes(article.title)}
-                                 onToggleFavorite={toggleFavorite}/>
-                ))
-            )}
-        </div>
+
+            <div >
+                <h1>Newsroom Dashboard</h1>
+                <button onClick={toggleDarkMode}>
+                    {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+                </button>
+                <input
+                    type="text"
+                    placeholder="Rechercher un article..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="search-input"
+                />
+                {filteredArticles.length === 0 ? (
+                    <p>Aucun article disponible</p>
+                ) : (
+                    filteredArticles.map((article, index) => (
+                        <ArticleCard key={index}
+                                     article={article}
+                                     isFavorite={favorites.includes(article.title)}
+                                     onToggleFavorite={toggleFavorite}/>
+                    ))
+                )}
+            </div>
+
     )
 }
 

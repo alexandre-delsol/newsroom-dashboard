@@ -3,6 +3,12 @@
 A modern news dashboard built with **React + TypeScript** that allows users to browse real-time articles, search content, save favorites, and toggle dark mode. The project focuses on UI/UX, state management, and clean frontend architecture.
 
 ---
+## 📸 Application Preview
+
+
+<img width="1123" height="639" alt="news-room-preview" src="https://github.com/user-attachments/assets/d1e20195-ccc8-4005-9e4c-e9f28f938935" />
+
+---
 
 ## 🚀 Features
 
